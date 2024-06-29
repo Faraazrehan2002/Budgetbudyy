@@ -106,7 +106,7 @@ const addItem = (e) => {
     itemList.appendChild(li);
 
     itemInput.value = '';
-    
+
     checkUI();
 };
 
@@ -139,6 +139,19 @@ const clearAllItems = () => {
     checkUI();
 };
 
+const filterItems = (e) => {
+    const items = document.querySelectorAll('li');
+    const typedInput = e.target.value.toLowerCase();
+    items.forEach(item => {
+        const textContent = item.firstChild.textContent.toLowerCase();
+        if(textContent.indexOf(typedInput) != -1){
+            item.style.display = 'flex';
+        }else{
+            item.style.display = 'none';
+        }
+    });
+};
+
 const checkUI = () => {
     const items = document.querySelectorAll('li');
     if(items.length === 0){
@@ -154,5 +167,6 @@ const checkUI = () => {
 itemForm.addEventListener('submit', addItem);
 itemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearAllItems);
+filter.addEventListener('input', filterItems);
 
 checkUI();
