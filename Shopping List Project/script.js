@@ -117,8 +117,12 @@ const onaddItemSubmit = (e) => {
         itemToEdit.classList.remove('edit-mode');
         itemToEdit.remove();
         location.reload();
+    }else{
+        if(checkIfItemExists(newItem.toLowerCase())){
+            alert('The item already exists');
+            return;
+        }
     }
-
     addItemtoDOM(newItem);
     addItemtoStorage(newItem);
     itemInput.value = '';
@@ -178,8 +182,14 @@ const setItemToEdit = (item) => {
     itemList.querySelectorAll('li').forEach((i) => i.classList.remove('edit-mode'));
     item.classList.add('edit-mode');
     itemInput.value = item.textContent;
-    formBtn.innerHTML = '<i class = "fa-solid fa-pen"> Update Item</i>';
+    formBtn.innerHTML = '<i class = "fa-solid fa-pen font-styling"> Update Item</i>';
     formBtn.style.backgroundColor = "#228B22";
+};
+
+const checkIfItemExists = (item) => {
+    let itemsFromStorage = getItemsFromStorage();
+    let itemsFromStorageLowerCase = itemsFromStorage.map((i) => i.toLowerCase());
+    return itemsFromStorageLowerCase.includes(item);
 };
 
 const removeItemFromDOM = (targetElement) => {
@@ -198,11 +208,13 @@ const removeItemFromStorage = (targetElementText) => {
 };
 
 const clearAllItems = () => {
-    while(itemList.firstChild){
-        itemList.removeChild(itemList.firstChild);
+    if(confirm('Are you sure?')){
+        while(itemList.firstChild){
+            itemList.removeChild(itemList.firstChild);
+        }
+        localStorage.removeItem('items');
+        checkUI();
     }
-    localStorage.removeItem('items');
-    checkUI();
 };
 
 
@@ -229,7 +241,7 @@ const checkUI = () => {
         filter.style.display = 'block';
         clearBtn.style.display = 'block';
     }
-    formBtn.innerHTML = '<i class="fa-solid fa-plus"> Add Item</i>';
+    formBtn.innerHTML = '<i class="fa-solid fa-plus font-styling"> Add Item</i>';
     formBtn.backgroundColor = "#333";
 
 

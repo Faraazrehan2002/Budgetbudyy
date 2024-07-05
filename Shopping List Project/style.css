@@ -57,6 +57,10 @@ header h1 {
   outline: none;
 }
 
+.font-styling{
+  font-style: 'Poppins', sans-serif;
+}
+
 /* Buttons */
 .btn {
   background-color: #333;
